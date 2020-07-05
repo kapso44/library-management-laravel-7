@@ -23,8 +23,12 @@
         <div class="input-group-append">
           <button type="submit" class="btn btn-primary" >Search</button>
         </div>
+        <a href="{{ route('books.index') }}">
+          <button class="btn btn-success" type="button">Home</button>
+        </a>
       </div>
     </div>
+    <div>
   </form>
   <table class="table table-striped">
     <thead>
@@ -53,9 +57,9 @@
                   'book_id' => $loan->book_id, 'branch_id' => $loan->branch_id, 'card_no' => $loan->card_no
                 ])}}">
                   @if (isset($loan->date_in))
-                  <button class="btn btn-danger" type="submit" disabled>Check-In</button>
+                  <button class="btn btn-danger" type="button" disabled>Check-In</button>
                   @else
-                  <button class="btn btn-danger" type="submit">Check-In</button>
+                  <button class="btn btn-danger" type="button">Check-In</button>
                   @endif
                 </a>
             </td>

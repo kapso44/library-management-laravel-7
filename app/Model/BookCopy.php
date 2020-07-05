@@ -28,9 +28,10 @@ class BookCopy extends Model
             'book_copies.no_of_copies',
             DB::raw('(CASE 
                     WHEN book_copies.no_of_copies = 0 THEN "Not Available"
-                    WHEN book_copies.branch_id = bLoans.branch_id and
+                    WHEN book_copies.branch_id = bLoans.branch_id and 
+                        bLoans.date_in is null and
                         count(distinct bLoans.card_no) >= book_copies.no_of_copies
-                        THEN "In Use"
+                    THEN "In Use"
                     ELSE "Available" 
                 END) AS availability'),
         )

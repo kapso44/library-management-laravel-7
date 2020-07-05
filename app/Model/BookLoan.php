@@ -20,12 +20,10 @@ class BookLoan extends Model
             ->count();
     }
 
-    protected static function getBorrowCount(string $bookId, int $branchId, int $cardNo)
+    protected static function getBorrowCount(int $cardNo)
     {
-        return self::where('book_id', $bookId)
-            ->where('branch_id', $branchId)
-            ->where('card_no', $cardNo)
-            ->whereNotNull('date_in')
+        return self::where('card_no', $cardNo)
+            ->whereNull('date_in')
             ->count();
     }
 }

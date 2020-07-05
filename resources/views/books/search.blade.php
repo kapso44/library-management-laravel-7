@@ -31,7 +31,7 @@
           <td>Branch Name</td>
           <td>Copies Owned</td>
           <td>Book Availablity</td>
-          <td>Action</td>
+          <td colspan="2">Action</td>
         </tr>
     </thead>
     <tbody>
@@ -45,9 +45,15 @@
             <td>{{$book->no_of_copies}}</td>
             <td>{{$book->availability}}</td>
             <td>
+              @if ($book->availability == 'In Use' || $book->availability == 'Not Available')
+                <a href="{{ route('books.checkout', ['book_id' => $book->book_id, 'branch_id' => $book->branch_id])}}">
+                  <button class="btn btn-danger" type="submit" disabled>Out of Stock</button>
+                </a>
+              @else
                 <a href="{{ route('books.checkout', ['book_id' => $book->book_id, 'branch_id' => $book->branch_id])}}">
                   <button class="btn btn-info" type="submit">Checkout</button>
                 </a>
+              @endif  
             </td>
         </tr>
         @endforeach

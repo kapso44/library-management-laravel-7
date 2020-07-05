@@ -113,6 +113,7 @@ class BookController extends Controller
     {
         $query = $request->input('query');
         $books = BookCopy::getBooks($query);
+
         return view('books.search', compact('books'));
     }
     
@@ -146,23 +147,21 @@ class BookController extends Controller
         $validated['date_out'] = $currentDate->format('Y-m-d');
         $validated['due_date'] = $currentDate->addDays(14)->format('Y-m-d');
         $checkBookCount = BookLoan::getBookCount($bookId, $branchId);
-        $checkBorrowCount = BookLoan::getBorrowCount(
-            $validated['book_id'], $validated['branch_id'], $branchId
-        );
+        $checkBorrowCount = BookLoan::getBorrowCount($validated['card_no']);
 
         $copiesAvaiable = BookCopy::where('book_id', $bookId)
             ->where('branch_id', $branchId)
             ->first('no_of_copies');
-        
+            
         if($checkBorrowCount >= 3) {
             return redirect('checkout')
                 ->withErrors('Sorry, You already have 3 active book loans')
                 ->withInput();
         }
 
-        if($checkBookCount >= $copiesAvaiable->no_of_copies) {
+        if($checkBookCount > $copiesAvaiable->no_of_copies) {
             return redirect('checkout')
-                ->withErrors(sprintf('Sorry, BookId %s is not avaiable in BranchId-%s', $bookId, $branchId))
+                ->withErrors(sprintf('Sorry, BookId %s is not available in BranchId-%s', $bookId, $branchId))
                 ->withInput();
         }
 
