@@ -25,6 +25,7 @@ class BookLoan extends Model
         return self::where('book_id', $bookId)
             ->where('branch_id', $branchId)
             ->where('card_no', $cardNo)
+            ->whereNotNull('date_in')
             ->count();
     }
 }

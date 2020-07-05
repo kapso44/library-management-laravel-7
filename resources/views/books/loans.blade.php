@@ -53,9 +53,9 @@
                   'book_id' => $loan->book_id, 'branch_id' => $loan->branch_id, 'card_no' => $loan->card_no
                 ])}}">
                   @if (isset($loan->date_in))
-                  <button class="btn btn-primary" type="submit" disabled>Check-In</button>
+                  <button class="btn btn-danger" type="submit" disabled>Check-In</button>
                   @else
-                  <button class="btn btn-primary" type="submit">Check-In</button>
+                  <button class="btn btn-danger" type="submit">Check-In</button>
                   @endif
                 </a>
             </td>

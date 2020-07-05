@@ -113,7 +113,6 @@ class BookController extends Controller
     {
         $query = $request->input('query');
         $books = BookCopy::getBooks($query);
-
         return view('books.search', compact('books'));
     }
     

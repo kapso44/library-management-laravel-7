@@ -19,16 +19,19 @@ class BookCopy extends Model
         return self::select(
             'book_copies.book_id',
             'books.title',
-            DB::raw('group_concat(distinct bAuthors.author_name separator ", ")   as authors'),
+            DB::raw('(CASE 
+                    WHEN book_copies.book_id = bAuthors.book_id THEN
+                    group_concat(distinct bAuthors.author_name separator ", ")
+                END) as authors'),
             'book_copies.branch_id',
             'libBranch.branch_name',
             'book_copies.no_of_copies',
             DB::raw('(CASE 
                     WHEN book_copies.no_of_copies = 0 THEN "Not Available"
                     WHEN book_copies.branch_id = bLoans.branch_id and
-                        book_copies.no_of_copies = 1 and bLoans.date_out is not null 
-                        and bLoans.date_in is null THEN "In Use"
-                    ELSE concat(book_copies.no_of_copies, " Book Available") 
+                        count(distinct bLoans.card_no) >= book_copies.no_of_copies
+                        THEN "In Use"
+                    ELSE "Available" 
                 END) AS availability'),
         )
         ->join('books', 'book_copies.book_id', '=', 'books.book_id')
